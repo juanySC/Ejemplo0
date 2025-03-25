@@ -1,4 +1,4 @@
-//Ejercicio 2: Escribir un programa que encuentre el volumen de un cilindro
+//Ejercicio 1: Escribir un programa que encuentre el area de un rectangulo
 
 //PARTE 1: LIBRERIAS
 #include <stdio.h>
