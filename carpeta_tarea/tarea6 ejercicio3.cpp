@@ -46,8 +46,10 @@ int main()
 			
 			//resultado con 5 decimales
 			printf("\nLa primera raiz es:  %.5lf\n",formulaPositiva);
-			printf("La segunda raiz es: %.5lf\n",formulaNegativa);
-		} else{
+			printf("\nLa segunda raiz es: %.5lf\n",formulaNegativa);
+		} else if(a == 0){
+			printf("El numero da error");
+		}else{
 			//parte1 parte real
 			primeraParte = (-b)/(2*a);
 			//parte2 parte imaginaria
