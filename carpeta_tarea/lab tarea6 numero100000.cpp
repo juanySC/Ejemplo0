@@ -1,114 +1,172 @@
-/*Se requiere que escriba un programa que permita leer un número entre 1 a 
-100,000 y luego de como salida el equivalente en letras. Deberá aplicar 
-instrucciones de selección y operadores aritméticos.
-Ejemplo de entrada 1
-Ejemplo de salida uno
+/*Ejercicio 1: Se requiere que escriba un programa que permita leer un número 
+entre 1 a 100,000 y luego de como salida el equivalente en letras. Deberá 
+aplicar instrucciones de selección y operadores aritméticos.
+Ejemplo de entrada 1				  Ejemplo de salida uno
 Ejemplo de entrada 21                 Ejemplo de salida Veinte y uno*/
 
-//PARTE 1: LIBRERIAS
+// PARTE 1: LIBRERÍAS
 #include <stdio.h>
 #include <conio.h>
 
-//PARTE 2: DATOS/VARIABLES
+// PARTE 2: DATOS/VARIABLES
 int numero = 0;
+int millar = 0;
+int decena_millar = 0;
 int centena = 0;
 int decena = 0;
 int unidad = 0;
 char condicion = 'n';
 
-//PARTE 3: FUNCION PRINCIPAL
-
-int main()
-	//PARTE 4: INICIO DEL CODIDO
-{
-	do{
-		//PARTE 5: INSTRUCCIONES O CODIGO
-		printf("Este programa devuelve el número en letras del 1al 100000\n");
+// PARTE 3: FUNCIÓN PRINCIPAL
+int main() {
+	do {
+		// PARTE 5: INSTRUCCIONES O CÓDIGO
+		printf("Este programa devuelve el número en letras del 1 al 100000\n");
 		printf("\nIngrese el número que desea evaluar: \n");
-		scanf("%d",&numero);
+		scanf("%d", &numero);
 		
-		//comparo si entra en rango de 0 a 100, si no tira un mensaje
-		if((numero < 1) || (numero  > 100000)){
-			printf("\nEl número esta fuera de rango\n");
+		// Verificar si el número está dentro del rango permitido
+		if (numero < 1 || numero > 100000) {
+			printf("\nEl número está fuera de rango\n");
 		}
-	
-		//numeros para obtener 100 = 1
-		centena = (numero%1000)/100;
-		//Números compuestos, no exactos o especiales
-		/*Analizo la decena de mi numero, obtengo parte entera, 40/10
-		decena = 4*/
-		decena = (numero%100)/10;
-		/*Analizo la unidad de mi numero, la parte restante, 45/10
-		unidad = 5*/
-		unidad = numero%10;
+		
+		// Obtener partes del número
+		millar = numero / 1000; // Para miles y decenas de mil
+		decena_millar = (numero % 100000) / 10000;
+		centena = (numero % 1000) / 100;
+		decena = (numero % 100) / 10;
+		unidad = numero % 10;
 		
 		printf("\nEl número en letras es: \n");
 		
-		//evaluo mi centena
-		if(centena > 0 ){ //ya que si no seria una decena por eso evaluo 0
-			switch(centena){
-			case 1: printf("cien\n"); break;
-			case 2: printf("doscientos\n"); break;
-			case 3: printf("trescientos\n"); break;
-			case 4: printf("cuatrocientos\n"); break;
-			case 5: printf("quiñentos\n"); break;
-			case 6: printf("seiscientos\n"); break;
-			case 7: printf("setecientos\n"); break;
-			case 8: printf("ochocientos\n"); break;
-			case 9: printf("novecientos\n"); break;
+		// Evaluar decenas de millar (20,000 a 90,000)
+		if (decena_millar > 0) {
+			switch (decena_millar) {
+			case 1:
+				if (millar == 0) {
+					printf("diez mil ");
+				} else {
+					printf("dieci");
+				}
+				break;
+			case 2: printf("veinte mil "); break;
+			case 3: printf("treinta mil "); break;
+			case 4: printf("cuarenta mil "); break;
+			case 5: printf("cincuenta mil "); break;
+			case 6: printf("sesenta mil "); break;
+			case 7: printf("setenta mil "); break;
+			case 8: printf("ochenta mil "); break;
+			case 9: printf("noventa mil "); break;
 			}
 		}
 		
-		
-		//evaluo decena
-		if(decena == 1){
-			//nuemros especiales
-			switch(unidad){
-			case 10: printf("diez\n"); break;
-			case 11: printf("once\n"); break;
-			case 12: printf("doce\n"); break;
-			case 13: printf("trece\n"); break;
-			case 14: printf("catorce\n"); break;
-			case 15: printf("quince\n"); break;
-			case 16: printf("dieci seis\n"); break;
-			case 17: printf("sieci siete\n"); break;
-			case 18: printf("dieciocho\n"); break;
-			case 19: printf("diecinueve\n"); break;
-			}
-		}else{
-			switch(decena){
-			case 2: printf("veinte\n"); break;
-			case 3: printf("treinta\n"); break;
-			case 4: printf("cuarenta\n"); break;
-			case 5: printf("cincuenta\n"); break;
-			case 6: printf("sesenta\n"); break;
-			case 7: printf("setenta\n"); break;
-			case 8: printf("ochenta\n"); break;
-			case 9: printf("noventa\n"); break;
-			}
-		}
-		
-		//evaluo unidades
-		if(unidad!=0){
-			printf("- y ");
-			switch(unidad){
-			case 1: printf("uno\n"); break;
-			case 2: printf("dos\n"); break;
-			case 3: printf("tres\n"); break;
-			case 4: printf("cuatro\n"); break;
-			case 5: printf("cinco\n"); break;
-			case 6: printf("seis\n"); break;
-			case 7: printf("siete\n"); break;
-			case 8: printf("ocho\n"); break;
-			case 9: printf("nueve\n"); break;
+		// Evaluar millares (1,000 a 9,999)
+		if (millar > 0 && millar < 10) {
+			if (decena_millar == 1) { // 11,000 a 19,999
+				switch (millar) {
+				case 1: printf("once mil "); break;
+				case 2: printf("doce mil "); break;
+				case 3: printf("trece mil "); break;
+				case 4: printf("catorce mil "); break;
+				case 5: printf("quince mil "); break;
+				case 6: printf("dieciséis mil "); break;
+				case 7: printf("diecisiete mil "); break;
+				case 8: printf("dieciocho mil "); break;
+				case 9: printf("diecinueve mil "); break;
+				}
+			} else if (decena_millar == 0) { 1,000 a 9,000
+				switch (millar) {
+				case 1: printf("mil "); break;
+				case 2: printf("dos mil "); break;
+				case 3: printf("tres mil "); break;
+				case 4: printf("cuatro mil "); break;
+				case 5: printf("cinco mil "); break;
+				case 6: printf("seis mil "); break;
+				case 7: printf("siete mil "); break;
+				case 8: printf("ocho mil "); break;
+				case 9: printf("nueve mil "); break;
+				}
 			}
 		}
 		
-		//preguntar al usuario si desea seguir evaluando numeros en ingles
-		printf("\nDesea continuar evaluando numeros s/n");
-		condicion = getch(); //asigna la variable de caracter
+		// Evaluar centenas
+		if (centena > 0) {
+			if (centena == 1 && decena == 0 && unidad == 0) {
+				printf("cien");
+			} else {
+				switch (centena) {
+				case 1: printf("ciento "); break;
+				case 2: printf("doscientos "); break;
+				case 3: printf("trescientos "); break;
+				case 4: printf("cuatrocientos "); break;
+				case 5: printf("quinientos "); break;
+				case 6: printf("seiscientos "); break;
+				case 7: printf("setecientos "); break;
+				case 8: printf("ochocientos "); break;
+				case 9: printf("novecientos "); break;
+				}
+			}
+		}
+		
+		//Numeros especiales (10-19)
+		if (decena == 1) {
+			switch (numero % 100) {
+			case 10: printf("diez"); break;
+			case 11: printf("once"); break;
+			case 12: printf("doce"); break;
+			case 13: printf("trece"); break;
+			case 14: printf("catorce"); break;
+			case 15: printf("quince"); break;
+			case 16: printf("dieciséis"); break;
+			case 17: printf("diecisiete"); break;
+			case 18: printf("dieciocho"); break;
+			case 19: printf("diecinueve"); break;
+			}
+		} 
+		else { // Evaluar decenas normales (20, 30, ..., 90)
+			switch (decena) {
+			case 2: printf("veinte"); break;
+			case 3: printf("treinta"); break;
+			case 4: printf("cuarenta"); break;
+			case 5: printf("cincuenta"); break;
+			case 6: printf("sesenta"); break;
+			case 7: printf("setenta"); break;
+			case 8: printf("ochenta"); break;
+			case 9: printf("noventa"); break;
+			}
+			
+			// Agregar " y " solo si hay unidades y la decena no es 0
+			if (decena > 2 && unidad != 0) {
+				printf(" y ");
+			}
+		}
+		
+		// Evaluar unidades
+		if (decena != 1) { // Solo imprimir si no es un número del 10 al 19
+			switch (unidad) {
+			case 1: printf("uno"); break;
+			case 2: printf("dos"); break;
+			case 3: printf("tres"); break;
+			case 4: printf("cuatro"); break;
+			case 5: printf("cinco"); break;
+			case 6: printf("seis"); break;
+			case 7: printf("siete"); break;
+			case 8: printf("ocho"); break;
+			case 9: printf("nueve"); break;
+			}
+		}
+		
+		// Caso especial: 100,000
+		if (numero == 100000) {
+			printf("cien mil");
+		}
+		
+		// Preguntar si desea continuar
+		printf("\n\n¿Desea continuar evaluando números? (s/n): ");
+		condicion = getch(); // Capturar entrada sin necesidad de presionar Enter
 		printf("\n");
-	}while(condicion == 's');
+		
+	} while (condicion == 's');
 	
-	//PARTE 6:FIN DEL CODIGO 
-}	
+	return 0; // Fin del programa
+}
