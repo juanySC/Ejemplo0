@@ -15,7 +15,8 @@ double discriminanteReal = 0;
 double formulaPositiva = 0;
 double formulaNegativa = 0;
 double respIgual = 0;
-double imaginario = 0;
+double imaginario1 = 0;
+double imaginario2 =0 ;
 double primeraParte = 0;
 char continuar = 'n';
 
@@ -52,10 +53,14 @@ int main()
 				//parte1 parte real
 				primeraParte = (-b)/(2*a);
 				//parte2 parte imaginaria
-				imaginario = sqrt(-discriminanteReal) / (2 * a);
+				imaginario1 = sqrt(-discriminanteReal) / (2 * a);
+				imaginario2 = -sqrt(-discriminanteReal) / (2 * a);
 				
 				printf("\nLa parte real es: %lf",primeraParte);
-				printf("\nLa parte imaginaria es: %lf i\n",imaginario);
+				printf("\nLa parte imaginaria es: %lf i\n",imaginario1);
+				
+				printf("\nLa parte real es: %lf",primeraParte);
+				printf("\nLa parte imaginaria es: %lf i\n",imaginario2);
 			}
 			
 			//si desea volver a meter ecuacion cuadratica
