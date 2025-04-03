@@ -25,7 +25,7 @@ int main()
 	//PARTE 4: INICIO DEL CODIDO
 {
 	do{	//PARTE 5: INSTRUCCIONES O CODIGO
-		printf("Este programa devuelve la diferencia de dias de las fechas \n");
+		printf("\nEste programa devuelve la diferencia de dias de las fechas \n");
 		printf("Ingrese en formato aa:mm:dd \n");
 		printf("Ingrese la primera fecha : \n");
 		scanf("%d:%d:%d",&anio1,&mes1,&dia1);
@@ -40,12 +40,12 @@ int main()
 		if(fecha2>fecha1){
 			//diferencia 
 			diferencia1 = fecha2 - fecha1;
-			printf("Los dias entre ambas fechas es: %d", diferencia1);
+			printf("Los dias entre ambas fechas es: %d dias\n", diferencia1);
 		} else if(fecha1>fecha2){
 			diferencia2 = fecha1 - fecha2;
-			printf("Los resultados de ambas fechas es: %d ",diferencia2);
+			printf("Los resultados de ambas fechas es: %d dias\n ",diferencia2);
 		} else if(fecha1 == fecha2){
-			printf("El dia no se puede restar porque el dia es actual");
+			printf("El dia no se puede restar porque el dia es actual\n");
 		}
 		
 		//si desea volver a comparar numeros o se sale
