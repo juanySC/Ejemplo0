@@ -19,21 +19,41 @@ int main()
 		printf("\nIngrese un valor para evaluar: \n");
 		scanf("%d",&numero);
 		
+		//ariable local
 		//rango de 1 a "numero" para que recorra
 		int contador = 1;
+		int dividendo = 2;
 		float resultado = 0.0;
-		int exponente = 2; //elevacion de mi numero fijo "/2"
+		int exponente = 1; //elevacion de mi numero fijo "/2"
 		
-		while(contador <= numero){
-			float aux = contador; //es como conversion de datos de entero a float
-			resultado = resultado+(aux/2);
-			printf("%s %d "," Termino ",contador);
-			printf("/2");
-			printf("= %.2f",aux/2);
-			contador++;
+		if(numero >= 0){
+			while(contador<= numero){
+				int exponente = 1;//cuantoas veces se va arepetir 
+				int potencia = 1; //guarda el resultado de lo elevado
+				
+				while(exponente <= contador){
+					potencia = potencia * dividendo;
+					exponente++;
+				}
+				
+				float aux = (float)contador/potencia; //es como conversion de datos de entero a float
+				//elevando mi numero divisor a 2
+				
+				resultado = resultado+aux;
+				printf("Termino %d: %d/2^%d = %.4f",contador, contador, contador, resultado);
+				printf("/%d",dividendo);
+				printf("= %.2f",aux/dividendo);
+				contador++;
+			}
+			
+			
+			
+			printf("\n La sumatoria es: %0.2f",resultado);
+		} else{
+			printf("Ingrese un numero mayor a 0");
 		}
-		
-		printf("\n La sumatoria es: %0.2f",resultado);
+	
+
 		
 		
 		//si desea volver a comparar numeros o se sale
