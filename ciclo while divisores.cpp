@@ -23,7 +23,8 @@ int main()
 		
 		//ciclo descendente
 		int contador = 1;
-		
+		//sirve para reiniciar los divisores y que no se acumulen de la vez anterior
+		divisores = 0;
 		
 		while(contador <= numero){
 			if(numero %contador == 0){
