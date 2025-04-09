@@ -1,7 +1,7 @@
-/*Ejercicio 5: Pedir al usuario un número N, luego mostrar el resultado de 
+/*Ejercicio 5: Pedir al usuario un nÃºmero N, luego mostrar el resultado de 
 la siguiente serie:
 Resultado = 1/1+1/2+1/3+.....+ 1/(n-1)+1/n
-Por ejemplo, si el usuario ingresa el valor N=5, el resultado sería
+Por ejemplo, si el usuario ingresa el valor N=5, el resultado serÃ­a
 Resultado<- 1/1+1/2+1/3+1/4+1/5	*/
 
 //PARTE 1: LIBRERIAS
@@ -30,7 +30,7 @@ int main()
 		while(contador <= n){
 			float aux = contador; //es como conversion de datos de entero a float
 			resultado = resultado+(1/aux);
-			printf("%s %d"," Termino = 1/",contador);
+			printf("\n%s %d"," Termino = 1/",contador);
 			printf("= %.2f",1/aux);
 			contador++;
 		}
