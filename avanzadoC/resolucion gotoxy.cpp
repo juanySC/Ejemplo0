@@ -28,7 +28,10 @@ int main(){
 		contadorX++;
 		
 		if(py<= 2) py++;
-		if(py>=17) py--;
+		else(py>=17) py--;
+		
+		if(py== 17) direccion = 0;
+		if(py == 2) direccion = 1;
 	}
 
 	
