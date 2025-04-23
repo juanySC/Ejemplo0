@@ -7,7 +7,7 @@ int gotoxy(int x, int y);
 
 int contadorX;
 int contadorY;
-int direccion;
+
 
 int main(){
 	
@@ -22,11 +22,12 @@ int main(){
 	
 	int px = 1;
 	int py =2;
+	int direccion = 1;
 	//derecha-abajo
 	while(px <= 70){
 		
 		gotoxy(px, py); printf("x");
-		Sleep(100);
+		Sleep(250);
 		px++;
 		
 		if(direccion == 1) py++;
@@ -34,7 +35,7 @@ int main(){
 		if(py== 17) direccion = 0;
 		if(py == 2) direccion = 1;
 	}
-
+	
 	
 	getch();
 	
