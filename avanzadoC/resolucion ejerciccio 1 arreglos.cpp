@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <windows.h>
+#include <time.h>
 int vector[10];
 
 int main (){
@@ -7,9 +9,11 @@ int main (){
 	int min = 100000, indice_min = 0;
 	
 	printf("Ingrese los valores\t");
+	srand(unsigned(time(NULL)));
 	for(int i = 0; i < 10; i++){
-		printf("\t %1s %d %1s ","{", i, "}" );
-		scanf("%d", &vector[i]);
+		printf("\t %1s %3d %1s ","{", i, "}" );
+		vector[i] = rand()%101;
+		printf("%15d\n", vector[i]);
 		if(max<vector[i]){
 			max = vector[i];
 			indice_max = i;
@@ -18,10 +22,11 @@ int main (){
 			min = vector[i];
 			indice_min = i;
 		}
+		//Sleep(300);
 	}
 	
-	printf("\nValor maximo \t%d", max);
-	printf("\tubicado en maximo \t%d", indice_max);
-	printf("\nValor minimo\t%d", min);
-	printf("\tubicado en minimo \t%d", indice_min);
+	printf("\nValor maximo \t%10d", max);
+	printf("\tubicado en maximo \t%10d", indice_max);
+	printf("\nValor minimo\t%10d", min);
+	printf("\tubicado en minimo \t%10d", indice_min);
 }
