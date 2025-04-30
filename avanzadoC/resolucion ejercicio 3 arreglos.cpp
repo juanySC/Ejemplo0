@@ -15,6 +15,7 @@ int main (){
 	int nums[NUM];
 	int pares = 0, impares = 0, cantPar = 0, cantImpar =0;
 	float suma = 0, promedio;
+	int primos = 0, perfecto = 0;
 	
 	//generando numero aleatorio
 	srand(unsigned(time(NULL)));
@@ -37,12 +38,20 @@ int main (){
 			impares += nums[i];
 			cantImpar += 1;
 		}
+		if((nums[i] == 2) || (nums[i] == 3) || (nums[i] == 5) || (nums[i] == 7)){
+			primos++;
+		}
+		if(nums[i] == 6){
+			perfecto++;
+		}
 	}
 	
 	printf("\nLa sumatoria de los numero pares es: %d", pares);
 	printf("\nLa sumatoria de los numero impares es: %d", impares);
 	printf("\nLa cantidad de los numero pares es: %d", cantPar);
 	printf("\nLa cantidad de los numero impares es: %d", cantImpar);
+	printf("\nLa cantidad de los numero primos es: %d", primos);
+	printf("\nLa cantidad de los numeros perfecto es: %d", perfecto);
 	
 
 }
