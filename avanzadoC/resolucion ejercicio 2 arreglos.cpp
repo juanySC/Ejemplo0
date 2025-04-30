@@ -5,28 +5,34 @@ int vector[10];
 
 int main (){
 	//para ver los numero mayor y menor
-	int max = vector[0], indice_max = 0;
-	int min = 100000, indice_min = 0;
+	int numeros[10];
+	int i, mayoresIgual = 0, menores = 0;
+	float suma = 0, promedio;
+	
+	//generando numero aleatorio
+	srand(unsigned(time(NULL)));
 	
 	printf("Ingrese los valores\t");
-	srand(unsigned(time(NULL)));
-	for(int i = 0; i < 10; i++){
-		printf("\t %1s %d %1s ","{", i, "}" );
-		vector[i] = rand()%10000;
-		printf("%10d\n", vector[i]);
-		if(max<vector[i]){
-			max = vector[i];
-			indice_max = i;
-		}
-		if(min>vector[i]){
-			min = vector[i];
-			indice_min = i;
-		}
-		Sleep(300);
+	for(i = 0; i <10; i++){
+		numeros[i] = rand()% 100+1;
+		printf("\n%d", numeros[i]);
+		suma+= numeros[i];
 	}
 	
-	printf("\nValor maximo \t%10d", max);
-	printf("\tubicado en maximo \t%10d", indice_max);
-	printf("\nValor minimo\t%10d", min);
-	printf("\tubicado en minimo \t%10d", indice_min);
+	//calculamos el promedio 
+	promedio = suma/10.0;
+	//contamos mayores, menores o iguales al promedio
+	for( i= 0; i <10; i++){
+		if(numeros[i] >= promedio)
+			mayoresIgual++;
+		else 
+			menores++;
+	}
+	
+	//mostramos resultados 
+	printf("\n \nPromedio %.2f\n", promedio);
+	printf("Cantidad de numeros >= al promedio ,mayores : %d\n", mayoresIgual);
+	printf("Cantidad de numeros <= promedio,, menores : %d\n", mayoresIgual);
+	
 }
+	
