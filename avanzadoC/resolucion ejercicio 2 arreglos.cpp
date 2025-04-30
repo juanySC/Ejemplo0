@@ -12,7 +12,7 @@ int main (){
 	srand(unsigned(time(NULL)));
 	for(int i = 0; i < 10; i++){
 		printf("\t %1s %d %1s ","{", i, "}" );
-		vector[i] = rand()%101;
+		vector[i] = rand()%10000;
 		printf("%10d\n", vector[i]);
 		if(max<vector[i]){
 			max = vector[i];
@@ -25,8 +25,8 @@ int main (){
 		Sleep(300);
 	}
 	
-	printf("\nValor maximo \t%d", max);
-	printf("\tubicado en maximo \t%d", indice_max);
-	printf("\nValor minimo\t%d", min);
-	printf("\tubicado en minimo \t%d", indice_min);
+	printf("\nValor maximo \t%10d", max);
+	printf("\tubicado en maximo \t%10d", indice_max);
+	printf("\nValor minimo\t%10d", min);
+	printf("\tubicado en minimo \t%10d", indice_min);
 }
