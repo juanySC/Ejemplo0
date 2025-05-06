@@ -3,28 +3,38 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <conio.h>
 #define NUM 50
 //declaro mis variables globales
 int numero, suma = 0;
+char continuar = 'n';
 
 int main() {
-	//inicializo que los numeros sean aleatorios
-	srand(unsigned(time(NULL)));
-	
-	
-	printf("Este programa muestra 50 numeros aleatorios entre -25 y 25\n");
-	printf("así también la suma de los mismos: \n");
-	for (int i = 0; i < NUM; i++) {
-		// 51= me genera un numero del 0 al 50
-		// -25 = hace que mi rango este entre [-25,25]
-		numero = rand() % 51 - 25;
-		printf("\n %1s %2d %3s \t","{",i,"}");
-		printf("%d \n", numero);
+	do{
+		//inicializo que los numeros sean aleatorios
+		srand(unsigned(time(NULL)));
 		
-		//suma
-		suma = suma + numero;
-	}
+		
+		printf("Este programa muestra 50 numeros aleatorios entre -25 y 25\n");
+		printf("así también la suma de los mismos: \n");
+		for (int i = 0; i < NUM; i++) {
+			// 51= me genera un numero del 0 al 50
+			// -25 = hace que mi rango este entre [-25,25]
+			numero = rand() % 51 - 25;
+			printf("\n %1s %2d %3s \t","{",i,"}");
+			printf("%d \n", numero);
+			
+			//suma
+			suma = suma + numero;
+		}
+		
+		printf("\nLa suma de los números aleatorios es: %d", suma);
+		
+		//si desea volver a meter ecuacion cuadratica
+		printf("\n\nDesea imprimir de nuevo s/n");
+		continuar=getch();//Para asignar a una variable char
+		printf("\n");
+	}while(continuar == 's');
 	
-	printf("\nLa suma de los números aleatorios es: %d", suma);
 	return 0;
 }
