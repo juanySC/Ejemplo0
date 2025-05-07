@@ -64,7 +64,7 @@ int main() {
 		//llamando funciones
 		valorAleatorio();
 		impresionDatos();
-		printf("La suma de total de todas la matriz es: %5d", sumaMatrix());
+		printf("\nLa suma de total de todas la matriz es: %5d", sumaMatrix());
 		
 		//si desea volver a meter ecuacion cuadratica
 		printf("\n\nDesea imprimir de nuevo s/n");
