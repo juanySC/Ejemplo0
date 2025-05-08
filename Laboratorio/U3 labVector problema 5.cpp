@@ -46,11 +46,32 @@ void valorAleatorio(){
 	}	
 	
 	int valorMaximo(){
-		int maximo;
-		
+		int maximo = matrix[0][0];  // inicializar con el primer elemento
+		for (int i = 0; i < FILA; i++) {
+			for (int j = 0; j < COLUMNA; j++) {
+				if (matrix[i][j] > maximo) {
+					maximo = matrix[i][j];
+				}
+			}
+		}
 		return maximo;
 	}	
-		
+	
+		int valorMinimo(){
+			// valor inicial para comparar
+			int minimo = matrix[0][0];  
+			for (int i = 0; i < FILA; i++) {
+				for (int j = 0; j < COLUMNA; j++) {
+					//comparo mi valor actual con el valor [0][0] de minimo
+					if (matrix[i][j] < minimo) {
+						//refleja quien es el minimo y va comparando por lo que se actualiza
+						minimo = matrix[i][j];
+					}
+				}
+			}
+			return minimo;
+		}	
+			
 	int sumaDiagonal(){
 		int suma = 0;
 		for (filas = 0; filas < FILA; filas++) {
@@ -61,7 +82,26 @@ void valorAleatorio(){
 	
 	int sumaRestante(){
 		int sumaRestante = 0;
-		return sumaRestante:
+		int suma = 0;
+		int sumaTotal =0;
+		//recorro solo la diagonal
+		for (filas = 0; filas < FILA; filas++) {
+			suma += matrix[filas][filas];
+		}
+		
+		//recorro toda la matriz
+		for(filas = 0; filas<FILA; filas++){
+			for(columnas = 0; columnas<COLUMNA; columnas++){
+				//la suma solo la genero una vez porque sino sumaria dos veces si 
+				//lo añado al ciclo de filas
+				sumaRestante += matrix[filas][columnas];
+			}
+		}
+		
+		//hago la resta entre todo la matriz menos la diagonal
+		sumaTotal = sumaRestante - suma;
+		
+		return sumaTotal;
 	}
 			
 	int main() {
@@ -85,9 +125,9 @@ void valorAleatorio(){
 			valorAleatorio();
 			impresionDatos();
 			printf("\nEl valor maximo de toda la matriz es: %5d",valorMaximo());
-			printf("\n El valor minimo de toda la matriz es: %5d");
+			printf("\n El valor minimo de toda la matriz es: %5d", valorMinimo());
 			printf("\nLa suma de la diagonal de la matriz es: %5d", sumaDiagonal());
-			printf("\nLa suma de total de los numeros que no estan en la matriz es: %5d");
+			printf("\nLa suma de total de los numeros que no estan en la matriz es: %5d", sumaRestante());
 					
 			//si desea volver a meter ecuacion cuadratica
 			printf("\n\nDesea imprimir de nuevo s/n");
