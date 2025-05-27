@@ -3,47 +3,26 @@
 #include <stdbool.h>
 #include <time.h>
 #include <string.h>
+
+#ifdef _WIN32
 #include <conio.h>
-#include <windows.h>
+#include <windows.h> // <- Agregado para usar Sleep
+#define CLEAR "cls"
+#define SLEEP(ms) Sleep(ms)
+#else
+#include <unistd.h>
+#include <termios.h>
+#include <fcntl.h>
+#define CLEAR "clear"
+#define SLEEP(ms) usleep((ms) * 3000)
+#endif
 
 #define GAME_WIDTH  40
 #define GAME_HEIGHT 20
 
+// Variable global para alternar color
 static bool generationColorToggle = false;
 static int generation = 0;
-
-void gotoxy(int x, int y) {
-	COORD coord;
-	coord.X = x;
-	coord.Y = y;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-}
-
-void mostrarSalida() {
-	const char* linea1 = "Sergio Alejandro Sagastume Gonzalez Programacion I 202508005";
-	const char* linea2 = "Annelis Juany Sacalxot Chojolan Programacion I 202508040";
-	int y = 0;
-	int alternadorColor = 0;
-	
-	while (y < 26) {
-		if (alternadorColor % 2 == 0)
-			system("color 5F");
-		else
-			system("color 2F");
-		
-		system("cls");
-		gotoxy(10, y);
-		printf("%s", linea1);
-		gotoxy(10, y + 2);
-		printf("%s", linea2);
-		
-		Sleep(200);
-		y++;
-		alternadorColor++;
-	}
-	
-	exit(0);  // Termina completamente el programa
-}
 
 bool isAlive(int game[GAME_WIDTH][GAME_HEIGHT], int x, int y) {
 	int alive = 0;
@@ -62,7 +41,7 @@ bool isAlive(int game[GAME_WIDTH][GAME_HEIGHT], int x, int y) {
 }
 
 void draw(int game[GAME_WIDTH][GAME_HEIGHT]) {
-	system("cls");
+	system(CLEAR);
 	
 	const char* color = generationColorToggle ? "\x1b[35m" : "\x1b[34m";
 	
@@ -70,42 +49,53 @@ void draw(int game[GAME_WIDTH][GAME_HEIGHT]) {
 	
 	for (int x = 0; x < GAME_WIDTH; ++x) {
 		for (int y = 0; y < GAME_HEIGHT; ++y) {
-			if (game[x][y]) totalAlive++;
+			if (game[x][y]) {
+				totalAlive++;
+			}
 		}
 	}
 	
 	int totalCells = GAME_WIDTH * GAME_HEIGHT;
 	int totalDead = totalCells - totalAlive;
 	
-	putchar(201);
-	for (int x = 0; x < GAME_WIDTH; ++x) putchar(205);
-	putchar(187);
+	// Imprimir esquina superior izquierda y línea superior
+	putchar(201); // +
+	for (int x = 0; x < GAME_WIDTH; ++x) putchar(205); // -
+	putchar(187); // +
 	printf("\n");
 	
+	// Imprimir filas con bordes laterales (sin conteo a la derecha)
 	for (int y = 0; y < GAME_HEIGHT; ++y) {
-		putchar(186);
+		putchar(186); // ¦
 		for (int x = 0; x < GAME_WIDTH; ++x) {
-			if (game[x][y])
+			if (game[x][y]) {
 				printf("%s%c\x1b[0m", color, 254);
-			else
-				putchar(' ');
+				// Viva
+			} else {
+				putchar(' '); // Muerta
+			}
 		}
-		putchar(186);
+		putchar(186); // ¦
 		putchar('\n');
 	}
 	
-	putchar(200);
-	for (int x = 0; x < GAME_WIDTH; ++x) putchar(205);
-	putchar(188);
+	// Línea inferior del marco
+	putchar(200); // +
+	for (int x = 0; x < GAME_WIDTH; ++x) putchar(205); // -
+	putchar(188); // +
 	putchar('\n');
 	
+	// Mostrar estadísticas globales
 	printf("\n\x1b[33mResumen:\x1b[0m\n");
 	printf(" Células vivas : %d\n", totalAlive);
 	printf(" Células muertas: %d\n", totalDead);
+	//static int generation = 0;
 	printf(" Generación     : %d\n", ++generation);
 	
+	// Alternar color
 	generationColorToggle = !generationColorToggle;
 }
+
 
 void insertGlider(int grid[GAME_WIDTH][GAME_HEIGHT], int x, int y) {
 	if (x + 2 < GAME_WIDTH && y + 2 < GAME_HEIGHT) {
@@ -136,18 +126,45 @@ void insertToad(int grid[GAME_WIDTH][GAME_HEIGHT], int x, int y) {
 	}
 }
 
+#ifndef _WIN32
+#include <sys/select.h>
+void setNonBlockingInput(bool enable) {
+	struct termios ttystate;
+	tcgetattr(STDIN_FILENO, &ttystate);
+	if (enable) {
+		ttystate.c_lflag &= ~ICANON;
+		ttystate.c_lflag &= ~ECHO;
+		ttystate.c_cc[VMIN] = 0;
+		ttystate.c_cc[VTIME] = 0;
+	} else {
+		ttystate.c_lflag |= ICANON;
+		ttystate.c_lflag |= ECHO;
+	}
+	tcsetattr(STDIN_FILENO, TCSANOW, &ttystate);
+}
+
+int kbhit() {
+	struct timeval tv = { 0L, 0L };
+	fd_set fds;
+	FD_ZERO(&fds);
+	FD_SET(0, &fds);
+	return select(1, &fds, NULL, NULL, &tv);
+}
+#endif
+
 void printBlinkingTitle() {
 	const char* red = "\x1b[31m";
 	const char* blue = "\x1b[34m";
 	const char* reset = "\x1b[0m";
 	
-	for (int i = 0; i < 6; i++) {
-		system("cls");
-		if (i % 2 == 0)
+	for (int i = 0; i < 6; i++) {  // Parpadea 6 veces (~1.2 segundos)
+		system(CLEAR);
+		if (i % 2 == 0) {
 			printf("%sSelecciona un patrón inicial:%s\n\n", red, reset);
-		else
+		} else {
 			printf("%sSelecciona un patrón inicial:%s\n\n", blue, reset);
-		Sleep(300);
+		}
+		SLEEP(300);
 	}
 }
 
@@ -164,7 +181,7 @@ int main() {
 		printf("4. Toad (añade un toad al aleatorio)\n");
 		printf("Opción: ");
 		scanf("%d", &opcion);
-		while (getchar() != '\n');
+		while (getchar() != '\n');  // limpiar buffer tras scanf
 		
 		srand((unsigned int)time(NULL));
 		for (int i = 0; i < GAME_WIDTH; ++i) {
@@ -174,14 +191,22 @@ int main() {
 		}
 		
 		if (opcion == 2) {
-			insertGlider(display, rand() % (GAME_WIDTH - 3), rand() % (GAME_HEIGHT - 3));
+			int gx = rand() % (GAME_WIDTH - 3);
+			int gy = rand() % (GAME_HEIGHT - 3);
+			insertGlider(display, gx, gy);
 		} else if (opcion == 3) {
-			insertBlinker(display, rand() % (GAME_WIDTH - 3), rand() % GAME_HEIGHT);
+			int bx = rand() % (GAME_WIDTH - 3);
+			int by = rand() % GAME_HEIGHT;
+			insertBlinker(display, bx, by);
 		} else if (opcion == 4) {
-			insertToad(display, rand() % (GAME_WIDTH - 4), rand() % (GAME_HEIGHT - 2));
+			int tx = rand() % (GAME_WIDTH - 4);
+			int ty = rand() % (GAME_HEIGHT - 2);
+			insertToad(display, tx, ty);
 		}
-		
 		generation = 0;
+#ifndef _WIN32
+		setNonBlockingInput(true);  // Activar entrada sin bloqueo SOLO aquí
+#endif
 		
 		while (1) {
 			for (int i = 0; i < GAME_WIDTH; ++i) {
@@ -192,20 +217,31 @@ int main() {
 			
 			draw(swap);
 			memcpy(display, swap, sizeof(display));
-			Sleep(500);
+			SLEEP(500);
 			
-			if (_kbhit() && _getch() == 13) break; // Enter para salir
+#ifdef _WIN32
+			if (_kbhit()) {
+				int c = _getch();
+				if (c == 13) break; // Enter para salir
+			}
+#else
+			if (kbhit()) {
+				char c = getchar();
+				if (c == '\n') break; // Enter para salir
+			}
+#endif
 		}
+		
+#ifndef _WIN32
+		setNonBlockingInput(false); // Desactivar entrada sin bloqueo al salir del juego
+#endif
 		
 		char volver;
 		printf("\n¿Volver al menú? (s/n): ");
 		scanf(" %c", &volver);
-		while (getchar() != '\n');
-		
-		if (volver != 's' && volver != 'S') {
-			system("cls");
-			mostrarSalida();
-		}
+		while (getchar() != '\n');  // limpiar buffer tras scanf
+		if (volver != 's' && volver != 'S') break;
 	}
+	
 	return 0;
 }

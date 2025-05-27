@@ -12,39 +12,6 @@
 static bool generationColorToggle = false;
 static int generation = 0;
 
-void gotoxy(int x, int y) {
-	COORD coord;
-	coord.X = x;
-	coord.Y = y;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-}
-
-void mostrarSalida() {
-	const char* linea1 = "Sergio Alejandro Sagastume Gonzalez Programacion I 202508005";
-	const char* linea2 = "Annelis Juany Sacalxot Chojolan Programacion I 202508040";
-	int y = 0;
-	int alternadorColor = 0;
-	
-	while (y < 26) {
-		if (alternadorColor % 2 == 0)
-			system("color 5F");
-		else
-			system("color 2F");
-		
-		system("cls");
-		gotoxy(10, y);
-		printf("%s", linea1);
-		gotoxy(10, y + 2);
-		printf("%s", linea2);
-		
-		Sleep(200);
-		y++;
-		alternadorColor++;
-	}
-	
-	exit(0);  // Termina completamente el programa
-}
-
 bool isAlive(int game[GAME_WIDTH][GAME_HEIGHT], int x, int y) {
 	int alive = 0;
 	for (int dx = -1; dx <= 1; dx++) {
@@ -167,6 +134,8 @@ int main() {
 		while (getchar() != '\n');
 		
 		srand((unsigned int)time(NULL));
+		
+		// Corregido con llaves
 		for (int i = 0; i < GAME_WIDTH; ++i) {
 			for (int j = 0; j < GAME_HEIGHT; ++j) {
 				display[i][j] = (rand() % 6 == 0) ? 1 : 0;
@@ -184,6 +153,7 @@ int main() {
 		generation = 0;
 		
 		while (1) {
+			// También corregido aquí
 			for (int i = 0; i < GAME_WIDTH; ++i) {
 				for (int j = 0; j < GAME_HEIGHT; ++j) {
 					swap[i][j] = isAlive(display, i, j) ? 1 : 0;
@@ -201,11 +171,7 @@ int main() {
 		printf("\n¿Volver al menú? (s/n): ");
 		scanf(" %c", &volver);
 		while (getchar() != '\n');
-		
-		if (volver != 's' && volver != 'S') {
-			system("cls");
-			mostrarSalida();
-		}
+		if (volver != 's' && volver != 'S') break;
 	}
 	return 0;
 }
