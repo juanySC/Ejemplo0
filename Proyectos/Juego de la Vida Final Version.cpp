@@ -8,7 +8,7 @@
 
 #define GAME_WIDTH  40
 #define GAME_HEIGHT 20
-
+//para ver si esta viva la celula
 static bool generationColorToggle = false;
 static int generation = 0;
 
@@ -57,25 +57,27 @@ bool isAlive(int game[GAME_WIDTH][GAME_HEIGHT], int x, int y) {
 			}
 		}
 	}
+	//reglas del juego 1 muere, 2 y 3 vive
 	if (game[x][y] == 1) return (alive == 2 || alive == 3);
+	//revive la celular
 	else return (alive == 3);
 }
 
 void draw(int game[GAME_WIDTH][GAME_HEIGHT]) {
-	system("cls");
-	
+	system("cls");//actualizar el tablero
+												//morado 	 azul
 	const char* color = generationColorToggle ? "\x1b[35m" : "\x1b[34m";
-	
+							//bool
 	int totalAlive = 0;
 	
 	for (int x = 0; x < GAME_WIDTH; ++x) {
 		for (int y = 0; y < GAME_HEIGHT; ++y) {
-			if (game[x][y]) totalAlive++;
+			if (game[x][y]) totalAlive++; 
 		}
 	}
 	
 	int totalCells = GAME_WIDTH * GAME_HEIGHT;
-	int totalDead = totalCells - totalAlive;
+	int totalDead = totalCells - totalAlive; 
 	
 	putchar(201);
 	for (int x = 0; x < GAME_WIDTH; ++x) putchar(205);
@@ -83,26 +85,27 @@ void draw(int game[GAME_WIDTH][GAME_HEIGHT]) {
 	printf("\n");
 	
 	for (int y = 0; y < GAME_HEIGHT; ++y) {
-		putchar(186);
+		putchar(186); //putchar imprimir caracter especifico
 		for (int x = 0; x < GAME_WIDTH; ++x) {
 			if (game[x][y])
-				printf("%s%c\x1b[0m", color, 254);
+				printf("%s%c\x1b[0m", color, 254);//vivo
 			else
-				putchar(' ');
+				putchar(' '); //no hay nada 
 		}
-		putchar(186);
+		putchar(186); //borde derecho
 		putchar('\n');
 	}
 	
 	putchar(200);
-	for (int x = 0; x < GAME_WIDTH; ++x) putchar(205);
-	putchar(188);
+	for (int x = 0; x < GAME_WIDTH; ++x) putchar(205); //borde inferior
+	putchar(188); //esquino de la inferior derecha
 	putchar('\n');
 	
+	//estadisiticas
 	printf("\n\x1b[33mResumen:\x1b[0m\n");
 	printf(" Células vivas : %d\n", totalAlive);
 	printf(" Células muertas: %d\n", totalDead);
-	printf(" Generación     : %d\n", ++generation);
+	printf(" Generación     : %d\n", ++generation); //cambia de color
 	
 	generationColorToggle = !generationColorToggle;
 }
@@ -169,29 +172,32 @@ int main() {
 		srand((unsigned int)time(NULL));
 		for (int i = 0; i < GAME_WIDTH; ++i) {
 			for (int j = 0; j < GAME_HEIGHT; ++j) {
-				display[i][j] = (rand() % 6 == 0) ? 1 : 0;
+				display[i][j] = (rand() % 6 == 0) ? 1 : 0; //posiciones de 
 			}
 		}
 		
 		if (opcion == 2) {
-			insertGlider(display, rand() % (GAME_WIDTH - 3), rand() % (GAME_HEIGHT - 3));
+			insertGlider(display, rand() % (GAME_WIDTH - 3), rand() % (GAME_HEIGHT - 3)); //posiciones 
 		} else if (opcion == 3) {
 			insertBlinker(display, rand() % (GAME_WIDTH - 3), rand() % GAME_HEIGHT);
 		} else if (opcion == 4) {
 			insertToad(display, rand() % (GAME_WIDTH - 4), rand() % (GAME_HEIGHT - 2));
 		}
 		
-		generation = 0;
+		generation = 0; //linea que setea la linea a cero
 		
-		while (1) {
+		while (1) {//menu principal, hasta que el usuario desee salir
 			for (int i = 0; i < GAME_WIDTH; ++i) {
 				for (int j = 0; j < GAME_HEIGHT; ++j) {
 					swap[i][j] = isAlive(display, i, j) ? 1 : 0;
 				}
 			}
 			
-			draw(swap);
-			memcpy(display, swap, sizeof(display));
+			draw(swap);	
+			//memcpy libreria estandar para copiar la matriz <string.h>
+			//copiar todo el conetenido de siplay en swap 
+			//copiar y pegar algo necesitamos saber la cantidad de espacio que vamos a usar
+			memcpy(display, swap, sizeof(display)); //estado actual del tablero display= desplegar (guarda matriz), swap = copia temporal de la siguiente generacion, a la siguiente generacion se reemplaza
 			Sleep(500);
 			
 			if (_kbhit() && _getch() == 13) break; // Enter para salir
